@@ -1,0 +1,10 @@
+export type TripStatus = "planning" | "active" | "completed";
+export type SplitType = "equal" | "custom" | "percentage";
+export type Member = { uid: string; name: string; email: string; photoURL: string | null; role: "owner" | "member"; joinedAt?: unknown };
+export type Trip = { id: string; name: string; destination: string; description: string; startDate: Date; endDate: Date; currency: string; ownerId: string; status: TripStatus; createdAt?: unknown; updatedAt?: unknown };
+export type ExpenseParticipant = { uid: string; amount: number; percentage?: number };
+export type ExpensePayment = { uid: string; amount: number };
+export type Expense = { id: string; title: string; amount: number; category: string; date: Date; notes: string; splitType: SplitType; participants: ExpenseParticipant[]; payments: ExpensePayment[]; createdBy: string; createdAt?: unknown; updatedAt?: unknown };
+export type Deposit = { id: string; uid: string; amount: number; date: Date; paymentMethod?: string; notes?: string; createdBy: string; createdAt?: unknown };
+export type Settlement = { id?: string; fromUid: string; toUid: string; amount: number; status: "pending" | "completed"; createdAt?: unknown; completedAt?: unknown };
+export type MemberBalance = { uid: string; totalExpenseShare: number; totalPaidForExpenses: number; totalDeposited: number; amountOwed: number; amountToReceive: number; netBalance: number };

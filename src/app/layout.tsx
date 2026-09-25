@@ -1,0 +1,3 @@
+import type { Metadata } from "next"; import "./globals.css"; import { AuthProvider } from "@/components/auth/AuthProvider";
+export const metadata:Metadata={title:"TripSplit",description:"Split the trip, not the friendship.",manifest:"/manifest.webmanifest",themeColor:"#087c6b",appleWebApp:{capable:true,statusBarStyle:"default",title:"TripSplit"}};
+export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body><AuthProvider>{children}</AuthProvider><script dangerouslySetInnerHTML={{__html:"if ('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))"}} /></body></html>}

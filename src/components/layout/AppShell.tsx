@@ -1,0 +1,1 @@
+import { Header } from "./Header"; import { ProtectedRoute } from "@/components/auth/ProtectedRoute"; export function AppShell({children}:{children:React.ReactNode}){return <ProtectedRoute><Header/><main className="mx-auto max-w-5xl px-5 pb-24">{children}</main></ProtectedRoute>}

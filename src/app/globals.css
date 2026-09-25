@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@theme { --color-ink:#142322; --color-mint:#dff8ef; }
+*{box-sizing:border-box} body{background:#f7faf9;color:#142322} button,input,select,textarea{font:inherit} button{cursor:pointer}.card{border:1px solid #e0ebe7;background:white;border-radius:1rem;padding:1.1rem;box-shadow:0 1px 2px #1430280a}.btn{border-radius:.75rem;background:#087c6b;color:white;padding:.75rem 1rem;font-weight:700}.btn:disabled{opacity:.55}.field{width:100%;border:1px solid #cbd8d4;border-radius:.75rem;background:#fff;padding:.7rem}.label{display:block;margin-bottom:.35rem;font-size:.85rem;font-weight:700}.muted{color:#61736e}.money-positive{color:#087c6b}.money-negative{color:#c43d3d}
+.dialog-backdrop{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:1.25rem;background:#14232280}.dialog-panel{width:min(100%,30rem);max-height:90vh;overflow:auto;border-radius:1rem;background:#f7faf9;padding:1.25rem;box-shadow:0 20px 50px #0004}

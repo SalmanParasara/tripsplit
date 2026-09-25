@@ -1,0 +1,2 @@
+# Accounting model
+TripSplit stores every monetary value as integer minor units (for example, `₹10.50 = 1050`). An expense creates a consumption share for each participant and a vendor payment credit for each payer. The settlement balance is **payments minus expense shares**. Deposits are contributions to a shared pool, not vendor payments, and therefore never change settlement balances; including them would double-count funds. The remaining pool is `sum(deposits) - sum(expense payments)`. A negative pool signals that vendor payments exceeded recorded pool contributions.

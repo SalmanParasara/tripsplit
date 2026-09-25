@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore { match /databases/{database}/documents {
+  function signedIn(){return request.auth != null;}
+  function member(id){return signedIn() && exists(/databases/$(database)/documents/trips/$(id)/members/$(request.auth.uid));}
+  function owner(id){return member(id) && get(/databases/$(database)/documents/trips/$(id)/members/$(request.auth.uid)).data.role == 'owner';}
+  // Temporary directory access: authenticated users can choose existing TripSplit
+  // accounts by email when an owner adds a trip member.
+  match /users/{uid} { allow read: if signedIn(); allow update: if signedIn() && request.auth.uid == uid; allow create: if signedIn() && request.auth.uid == uid; }
+  match /trips/{tripId} {
+    allow create: if signedIn() && request.resource.data.ownerId == request.auth.uid;
+    // memberIds is a queryable membership index. ownerId keeps existing owner trips readable.
+    allow read: if signedIn() && (resource.data.ownerId == request.auth.uid || request.auth.uid in resource.data.memberIds);
+    allow update,delete: if owner(tripId) && request.resource.data.ownerId == resource.data.ownerId;
+    match /members/{uid} {
+      // The uid equality makes the collection-group dashboard query provably safe.
+      // Existing trip members may also read the complete member list.
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || member(tripId));
+      // The creator must be able to create their own initial owner membership.
+      // All subsequent member management is restricted to an existing owner.
+      allow create: if (signedIn() && request.auth.uid == uid
+                       && get(/databases/$(database)/documents/trips/$(tripId)).data.ownerId == request.auth.uid
+                       && request.resource.data.role == 'owner') || owner(tripId);
+      allow update,delete: if owner(tripId);
+    }
+    match /expenses/{id} { allow read: if member(tripId); allow create: if member(tripId) && request.resource.data.createdBy == request.auth.uid; allow update,delete: if member(tripId) && (resource.data.createdBy == request.auth.uid || owner(tripId)); }
+    match /deposits/{id} { allow read: if member(tripId); allow create: if member(tripId) && request.resource.data.createdBy == request.auth.uid; allow update,delete: if member(tripId) && (resource.data.createdBy == request.auth.uid || owner(tripId)); }
+    match /settlements/{id} { allow read,create,update: if member(tripId); allow delete: if owner(tripId); }
+  }
+}}

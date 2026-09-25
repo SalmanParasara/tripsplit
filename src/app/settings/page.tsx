@@ -1,0 +1,1 @@
+import { AppShell } from "@/components/layout/AppShell";export default function Settings(){return <AppShell><h1 className="text-3xl font-black">Settings</h1><div className="card mt-5">Your TripSplit account is managed through your Google sign-in.</div></AppShell>}
